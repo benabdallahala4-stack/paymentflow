@@ -1,0 +1,15 @@
+@if (auth.isAuthenticated()) {
+  <nav class="nav-bar">
+    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/accounts" routerLinkActive="active">Accounts</a>
+    <a routerLink="/transfer" routerLinkActive="active">Transfer</a>
+    <a routerLink="/payments" routerLinkActive="active">Payments</a>
+    <a routerLink="/history" routerLinkActive="active">History</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/admin" routerLinkActive="active">Admin</a>
+    }
+    <span class="spacer"></span>
+    <span class="user">{{ auth.currentUser()?.email }} ({{ auth.role() }})</span>
+    <button type="button" (click)="logout()">Log out</button>
+  </nav>
+}

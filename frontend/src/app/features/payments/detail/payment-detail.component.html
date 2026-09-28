@@ -1,0 +1,31 @@
+<section class="payment-detail">
+  <a routerLink="/payments">&larr; Back to payments</a>
+
+  @if (loading()) {
+    <p class="state">Loading payment…</p>
+  } @else if (notFound()) {
+    <p class="state">Payment not found.</p>
+  } @else if (payment(); as payment) {
+    <h1>Payment {{ payment.transactionId }}</h1>
+    <dl>
+      <dt>Status</dt>
+      <dd class="status" [class]="'status--' + payment.status.toLowerCase()">{{ payment.status }}</dd>
+
+      <dt>Amount</dt>
+      <dd>{{ payment.amountMinorUnits | money: payment.currency }}</dd>
+
+      <dt>From</dt>
+      <dd class="mono">{{ payment.sourceAccountId }}</dd>
+
+      <dt>To</dt>
+      <dd class="mono">{{ payment.destinationAccountId }}</dd>
+
+      <dt>Created</dt>
+      <dd>{{ payment.createdAt | date: 'medium' }}</dd>
+    </dl>
+
+    @if (payment.status === 'PENDING') {
+      <button type="button" (click)="refresh()">Refresh status</button>
+    }
+  }
+</section>

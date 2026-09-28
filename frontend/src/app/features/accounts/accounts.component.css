@@ -1,0 +1,65 @@
+.accounts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.account-id {
+  font-family: monospace;
+  margin-right: 0.5rem;
+}
+
+.account-currency {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.account-balance {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.new-account {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.new-account label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.new-account input {
+  padding: 0.4rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  width: 5rem;
+}
+
+.new-account button {
+  padding: 0.5rem 1rem;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.new-account button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

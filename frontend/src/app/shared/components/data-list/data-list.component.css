@@ -1,0 +1,12 @@
+.data-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.state {
+  padding: 1rem;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}

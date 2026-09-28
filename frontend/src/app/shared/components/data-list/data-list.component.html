@@ -1,0 +1,14 @@
+<div class="data-list">
+  @if (loading && items.length === 0) {
+    <p class="state state--loading">Loading…</p>
+  } @else if (items.length === 0) {
+    <p class="state state--empty">{{ emptyMessage }}</p>
+  } @else {
+    @for (item of items; track $index) {
+      <ng-container [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="{ $implicit: item }" />
+    }
+    @if (loading) {
+      <p class="state state--loading">Loading more…</p>
+    }
+  }
+</div>

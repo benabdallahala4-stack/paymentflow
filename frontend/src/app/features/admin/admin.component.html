@@ -1,0 +1,71 @@
+<section class="admin">
+  <h1>Admin monitoring</h1>
+
+  <div class="lookup">
+    <h2>Inspect a transaction</h2>
+    <div class="lookup-form">
+      <input
+        type="text"
+        placeholder="Transaction ID"
+        [ngModel]="lookupId()"
+        (ngModelChange)="setLookupId($event)"
+        name="lookupId"
+      />
+      <button type="button" (click)="inspectTransaction()" [disabled]="lookupLoading()">
+        {{ lookupLoading() ? 'Looking up…' : 'Inspect' }}
+      </button>
+    </div>
+
+    @if (lookupError()) {
+      <p class="form-error">{{ lookupError() }}</p>
+    }
+
+    @if (lookupResult(); as detail) {
+      <div class="lookup-result">
+        <dl>
+          <dt>Status</dt>
+          <dd>{{ detail.status }}</dd>
+          <dt>Amount</dt>
+          <dd>{{ detail.amountMinorUnits | money: detail.currency }}</dd>
+          <dt>Source</dt>
+          <dd class="mono">{{ detail.sourceAccountId }}</dd>
+          <dt>Destination</dt>
+          <dd class="mono">{{ detail.destinationAccountId }}</dd>
+        </dl>
+
+        <h3>Outbox events</h3>
+        @if (detail.outboxEvents.length === 0) {
+          <p class="state">No outbox events recorded.</p>
+        } @else {
+          <ul class="outbox-list">
+            @for (event of detail.outboxEvents; track event.eventId) {
+              <li>
+                <span class="event-type">{{ event.eventType }}</span>
+                <span class="event-status" [class]="'event-status--' + event.status.toLowerCase()">{{ event.status }}</span>
+                <span class="event-date">{{ event.createdAt | date: 'short' }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="recent">
+    <h2>Recent payments</h2>
+    <app-data-list [items]="payments()" [loading]="loading()" emptyMessage="No payments recorded.">
+      <ng-template #row let-payment>
+        <div class="payment-row">
+          <span class="mono">{{ payment.transactionId }}</span>
+          <span class="status">{{ payment.status }}</span>
+          <span class="amount">{{ payment.amountMinorUnits | money: payment.currency }}</span>
+          <span class="date">{{ payment.createdAt | date: 'short' }}</span>
+        </div>
+      </ng-template>
+    </app-data-list>
+
+    @if (nextCursor() && !loading()) {
+      <button type="button" (click)="loadMore()">Load more</button>
+    }
+  </div>
+</section>

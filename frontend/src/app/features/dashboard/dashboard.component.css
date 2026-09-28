@@ -1,0 +1,53 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.state {
+  color: #666;
+  font-style: italic;
+}
+
+.totals {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.total-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  min-width: 140px;
+}
+
+.total-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.total-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.quick-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quick-links a {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #1f2937;
+}
+
+.quick-links a:hover {
+  background: #f3f4f6;
+}

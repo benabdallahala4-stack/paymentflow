@@ -1,0 +1,31 @@
+<div class="auth-card">
+  <h1>Log in</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <label>
+      Email
+      <input type="email" formControlName="email" autocomplete="email" />
+    </label>
+    @if (form.controls.email.invalid && form.controls.email.touched) {
+      <p class="field-error">A valid email is required.</p>
+    }
+
+    <label>
+      Password
+      <input type="password" formControlName="password" autocomplete="current-password" />
+    </label>
+    @if (form.controls.password.invalid && form.controls.password.touched) {
+      <p class="field-error">Password must be at least 8 characters.</p>
+    }
+
+    @if (errorMessage()) {
+      <p class="form-error">{{ errorMessage() }}</p>
+    }
+
+    <button type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Logging in…' : 'Log in' }}
+    </button>
+  </form>
+
+  <p class="hint">No account? <a routerLink="/register">Register</a></p>
+</div>

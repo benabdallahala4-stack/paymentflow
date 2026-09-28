@@ -1,0 +1,26 @@
+<section class="accounts">
+  <h1>Your accounts</h1>
+
+  <app-data-list [items]="accounts()" [loading]="loading()" emptyMessage="You don't have any accounts yet.">
+    <ng-template #row let-account>
+      <div class="account-row">
+        <div>
+          <span class="account-id">{{ account.id }}</span>
+          <span class="account-currency">{{ account.currency }}</span>
+        </div>
+        <span class="account-balance">{{ account.balanceMinorUnits | money: account.currency }}</span>
+        <a [routerLink]="['/history']" [queryParams]="{ accountId: account.id }">History</a>
+      </div>
+    </ng-template>
+  </app-data-list>
+
+  <form class="new-account" [formGroup]="form" (ngSubmit)="createAccount()">
+    <label>
+      Currency
+      <input type="text" formControlName="currency" maxlength="3" />
+    </label>
+    <button type="submit" [disabled]="form.invalid || creating()">
+      {{ creating() ? 'Opening…' : 'Open new account' }}
+    </button>
+  </form>
+</section>

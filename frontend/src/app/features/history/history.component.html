@@ -1,0 +1,28 @@
+<section class="history">
+  <h1>Transaction history</h1>
+
+  @if (accounts().length > 0) {
+    <label class="account-select">
+      Account
+      <select [ngModel]="selectedAccountId()" (ngModelChange)="selectAccount($event)" name="account">
+        @for (account of accounts(); track account.id) {
+          <option [value]="account.id">{{ account.id }}</option>
+        }
+      </select>
+    </label>
+  }
+
+  <app-data-list [items]="items()" [loading]="loading()" emptyMessage="No transactions for this account yet.">
+    <ng-template #row let-item>
+      <div class="tx-row">
+        <span class="direction" [class]="'direction--' + item.direction.toLowerCase()">{{ item.direction }}</span>
+        <span class="amount">{{ item.amountMinorUnits | money: item.currency }}</span>
+        <span class="date">{{ item.createdAt | date: 'short' }}</span>
+      </div>
+    </ng-template>
+  </app-data-list>
+
+  @if (nextCursor() && !loading()) {
+    <button type="button" (click)="loadMore()">Load more</button>
+  }
+</section>

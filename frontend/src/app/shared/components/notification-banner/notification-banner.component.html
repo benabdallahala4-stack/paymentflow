@@ -1,0 +1,7 @@
+<div class="banner-stack">
+  @for (n of items(); track n.id) {
+    <div class="banner" [class]="'banner--' + n.level" (click)="dismiss(n.id)">
+      {{ n.message }}
+    </div>
+  }
+</div>

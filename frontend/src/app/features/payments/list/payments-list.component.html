@@ -1,0 +1,18 @@
+<section class="payments">
+  <h1>Your payments</h1>
+
+  <app-data-list [items]="payments()" [loading]="loading()" emptyMessage="No payments yet.">
+    <ng-template #row let-payment>
+      <a class="payment-row" [routerLink]="['/payments', payment.transactionId]">
+        <span class="mono">{{ payment.transactionId }}</span>
+        <span class="status" [class]="'status--' + payment.status.toLowerCase()">{{ payment.status }}</span>
+        <span class="amount">{{ payment.amountMinorUnits | money: payment.currency }}</span>
+        <span class="date">{{ payment.createdAt | date: 'short' }}</span>
+      </a>
+    </ng-template>
+  </app-data-list>
+
+  @if (nextCursor() && !loading()) {
+    <button type="button" (click)="loadMore()">Load more</button>
+  }
+</section>

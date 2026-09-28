@@ -1,0 +1,68 @@
+.payments {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.payment-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.payment-row:hover {
+  background: #f9fafb;
+}
+
+.mono {
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+.status {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status--completed {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status--failed,
+.status--rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.amount {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.date {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+button {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}

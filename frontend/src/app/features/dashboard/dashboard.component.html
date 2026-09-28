@@ -1,0 +1,25 @@
+<section class="dashboard">
+  <h1>Welcome, {{ auth.currentUser()?.email }}</h1>
+
+  @if (loading()) {
+    <p class="state">Loading your accounts…</p>
+  } @else if (accounts().length === 0) {
+    <p class="state">You don't have any accounts yet. <a routerLink="/accounts">Open one</a>.</p>
+  } @else {
+    <div class="totals">
+      @for (entry of totalBalanceByCurrency() | keyvalue; track entry.key) {
+        <div class="total-card">
+          <span class="total-label">Total ({{ entry.key }})</span>
+          <span class="total-value">{{ entry.value | money: entry.key }}</span>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="quick-links">
+    <a routerLink="/accounts">Accounts</a>
+    <a routerLink="/transfer">Transfer money</a>
+    <a routerLink="/payments">Payments</a>
+    <a routerLink="/history">Transaction history</a>
+  </div>
+</section>
