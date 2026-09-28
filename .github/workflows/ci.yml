@@ -1,0 +1,91 @@
+# PaymentFlow CI pipeline. No secrets used; Testcontainers uses the Docker-in-Docker
+# support built into GitHub-hosted ubuntu runners (no extra setup needed).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend-test:
+    name: Backend build & test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      # Testcontainers pulls PostgreSQL/Kafka images at test time; the ubuntu-latest
+      # runner already has Docker available for this (Docker-in-Docker not required —
+      # Testcontainers talks to the runner's own Docker daemon directly).
+      - name: Run backend tests (Testcontainers)
+        run: mvn -B verify
+
+  frontend-test:
+    name: Frontend build & test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Build
+        run: npx ng build --configuration production
+
+  build-docker-images:
+    name: Build Docker images (no push)
+    runs-on: ubuntu-latest
+    needs: [backend-test, frontend-test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker build -t paymentflow-backend:ci ./backend
+
+      - name: Build frontend image
+        run: docker build -t paymentflow-frontend:ci ./frontend
+
+      # Pushing to a registry is intentionally left commented out: this project does not
+      # deploy anywhere, and pushing would require registry credentials/secrets that are
+      # out of scope (see docs/system-design/infrastructure-roadmap.md).
+      #
+      # - name: Log in to registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      #
+      # - name: Push backend image
+      #   run: |
+      #     docker tag paymentflow-backend:ci ghcr.io/${{ github.repository }}/backend:latest
+      #     docker push ghcr.io/${{ github.repository }}/backend:latest
+      #
+      # - name: Push frontend image
+      #   run: |
+      #     docker tag paymentflow-frontend:ci ghcr.io/${{ github.repository }}/frontend:latest
+      #     docker push ghcr.io/${{ github.repository }}/frontend:latest

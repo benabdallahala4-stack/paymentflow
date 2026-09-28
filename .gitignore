@@ -1,0 +1,10 @@
+# Terraform local state/plugin cache — never applied for real, but keep noise out of git.
+infrastructure/terraform/.terraform/
+infrastructure/terraform/*.tfstate
+infrastructure/terraform/*.tfstate.*
+infrastructure/terraform/*.tfplan
+
+# Build outputs
+backend/target/
+frontend/dist/
+frontend/node_modules/

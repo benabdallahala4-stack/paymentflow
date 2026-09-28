@@ -1,0 +1,9 @@
+# Placeholder ConfigMap for the frontend — currently no runtime config needed since
+# the Angular build is static; kept here to show the pattern for future env-specific
+# config (e.g. API base URL injected at container start).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  API_BASE_URL: http://backend:8080

@@ -1,0 +1,12 @@
+# Local overlay — for an optional try-out against kind/minikube. Not applied as part
+# of this project's normal workflow (docker compose is the actual local runtime).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: paymentflow-local
+resources:
+  - ../../base
+replicas:
+  - name: backend
+    count: 1
+  - name: frontend
+    count: 1

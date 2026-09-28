@@ -1,0 +1,15 @@
+# Production overlay — ASPIRATIONAL / DOCUMENT-ONLY. No production cluster exists or
+# is targeted by this project. Shown to illustrate how replicas/resources would be
+# patched per environment.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: paymentflow-production
+resources:
+  - ../../base
+replicas:
+  - name: backend
+    count: 3
+  - name: frontend
+    count: 2
+patches:
+  - path: resources-patch.yaml

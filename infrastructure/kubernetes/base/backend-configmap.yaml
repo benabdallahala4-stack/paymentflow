@@ -1,0 +1,12 @@
+# Basic backend config — non-secret values only. DB/redis/kafka credentials would
+# come from a Secret (not created here; out of scope for this scaffolding pass).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/paymentflow
+  SPRING_DATA_REDIS_HOST: redis
+  SPRING_DATA_REDIS_PORT: "6379"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,prometheus
