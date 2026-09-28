@@ -7,9 +7,13 @@ Phase 0 decisions recorded under `docs/architecture/` and `docs/adr/`. Read
 
 ## Status
 
-As of this writing the project is **Phase 0: architecture only.** `backend/` and
-`frontend/` are empty. Do not assume any implementation exists that isn't actually in the
-tree.
+A basic implementation of every phase exists and is runnable locally (`backend/`,
+`frontend/`, `docker-compose.yml`, `infrastructure/`, `observability/`, CI). This is a
+portfolio project: nothing under `infrastructure/` has ever been applied/deployed to a
+real cloud account, and no load test has been run at production scale — see
+`docs/architecture/technology-classification.md` for the exact IMPLEMENTED /
+DOCUMENT-ONLY split. Do not assume more exists than what's actually in the tree; do not
+claim in docs or commit messages that anything is deployed unless it genuinely is.
 
 ## Architecture constraints
 
@@ -29,7 +33,6 @@ tree.
 
 ## Coding standards
 
-- No implementation code before Phase 1 begins; Phase 0 is documentation only.
 - Money is never represented as floating point. Use minor-units `long`/`BIGINT`
   (ADR-003), wrapped in a `Money` value object in the `shared` module.
 - New indexes are added only when justified by an `EXPLAIN ANALYZE` finding or a load
