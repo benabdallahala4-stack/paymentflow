@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: paymentflow-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/paymentflow
+    username: paymentflow
+    password: paymentflow
+  jpa:
+    hibernate:
+      ddl-auto: validate   # ADR-011: schema owned exclusively by Flyway, never JPA
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: audit-consumer
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  # Kafka is optional local infra (ADR-010/rule 6): if the broker is unreachable at
+  # startup, KafkaAdmin's default fail-fast is disabled below so the app still starts
+  # and serves HTTP without Kafka running.
+  kafka.admin.fail-fast: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+paymentflow:
+  jwt:
+    secret: ${PAYMENTFLOW_JWT_SECRET:this-is-a-local-dev-only-secret-change-me-32bytes}
+    expiration-minutes: 60
+  outbox:
+    poll-interval-ms: 2000
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
